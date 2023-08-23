@@ -1,0 +1,11 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  background-image: url('img/app.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
