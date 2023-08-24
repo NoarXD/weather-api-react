@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
+import { useTranslation } from 'react-i18next';
 
 function App() {
   interface ApiType {
@@ -60,9 +61,12 @@ function App() {
       setWeather(res.data as WeatherType);
     });
   }, []);
+
+  const { t } = useTranslation();
+
   return (
     <>
-      <div className="app h-full bg-cyan-500">
+      <div className="app h-[100vh] bg-cyan-500">
         <main className="p-10">
           {/* search bar */}
           <div className="mb-10 lg:max-w-2xl mx-auto">
@@ -103,7 +107,7 @@ function App() {
             <div className="text-2xl">
               {weather && weather.name && (
                 <div>
-                  {weather.name}, {weather.sys.country}
+                  {weather.name}, {weather.sys.country} {t('welcome')}
                 </div>
               )}
             </div>
@@ -111,13 +115,13 @@ function App() {
           </div>
           {/* status */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-14 text-white text-xl">
-            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+            <div className="bg-cyan-300 h-36 rounded-xl p-2 flex flex-col justify-around shadow-xl">
               <div className="text-center">wind speed</div>
               <div className="text-center text-2xl font-bold">
                 {weather && weather.wind && <div>{weather.wind.speed}</div>}
               </div>
             </div>
-            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+            <div className="bg-cyan-300 h-36 rounded-xl p-2 flex flex-col justify-around shadow-xl">
               <div className="text-center">fells like</div>
               <div className="text-center text-2xl font-bold">
                 {weather &&
@@ -125,7 +129,7 @@ function App() {
                   `${Math.round(weather.main.feels_like - 273.15)}°C`}
               </div>
             </div>
-            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+            <div className="bg-cyan-300 h-36 rounded-xl p-2 flex flex-col justify-around shadow-xl">
               <div className="text-center">temp min</div>
               <div className="text-center text-2xl font-bold">
                 {weather &&
@@ -133,7 +137,7 @@ function App() {
                   `${Math.round(weather.main.temp_min - 273.15)}°C`}
               </div>
             </div>
-            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+            <div className="bg-cyan-300 h-36 rounded-xl p-2 flex flex-col justify-around shadow-xl">
               <div className="text-center">temp max</div>
               <div className="text-center text-2xl font-bold">
                 {weather &&
@@ -141,7 +145,7 @@ function App() {
                   `${Math.round(weather.main.temp_max - 273.15)}°C`}
               </div>
             </div>
-            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+            <div className="bg-cyan-300 h-36 rounded-xl p-2 flex flex-col justify-around shadow-xl">
               <div className="text-center">pressure</div>
               <div className="text-center text-2xl font-bold">
                 {weather &&
@@ -149,7 +153,7 @@ function App() {
                   <div>{weather.main.pressure}</div>}
               </div>
             </div>
-            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+            <div className="bg-cyan-300 h-36 rounded-xl p-2 flex flex-col justify-around shadow-xl">
               <div className="text-center">humidity</div>
               <div className="text-center text-2xl font-bold">
                 {weather &&
