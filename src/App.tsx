@@ -12,13 +12,23 @@ function App() {
     name: string;
     main: {
       temp: number;
+      feels_like: number;
+      temp_min: number;
+      temp_max: number;
+      pressure: number;
+      humidity: number;
+      sea_level: number;
     };
     sys: {
       country: string;
     };
     weather: {
       main: string;
+      description: string;
     }[];
+    wind: {
+      speed: number;
+    };
   }
 
   const api: ApiType = {
@@ -45,29 +55,52 @@ function App() {
   };
 
   useEffect(() => {
-    axios.get(
-      `${api.base}weather?q=${query}&appid=${api.key}`
-    ).then((res) => {
-      setQuery("")
+    axios.get(`${api.base}weather?q=${query}&appid=${api.key}`).then((res) => {
+      setQuery("");
       setWeather(res.data as WeatherType);
-    })
+    });
   }, []);
   return (
     <>
-      <div className="app h-[100vh]">
+      <div className="app h-full bg-cyan-500">
         <main className="p-10">
-          <div className="mb-10">
+          {/* search bar */}
+          <div className="mb-10 lg:max-w-2xl mx-auto">
             <input
               type="text"
               placeholder="search..."
-              className="w-full p-2.5 rounded-xl "
+              className="p-2.5 rounded-xl outline-none w-full"
               onChange={(e) => setQuery(e.target.value)}
               value={query}
               onKeyPress={search}
             />
           </div>
-          <div className="text-white text-2xl flex flex-col items-center">
+          {/* temp */}
+          <div className="text-white text-center mt-10">
+            <div className="font-extrabold text-5xl">
+              {weather &&
+                weather.main &&
+                `${Math.round(weather.main.temp - 273.15)}°C`}
+            </div>
+          </div>
+          {/* weather */}
+          <div className="text-white flex flex-col items-center mt-5 ">
             <div>
+              {weather && weather.weather && (
+                <div className="text-2xl font-bold">
+                  {weather.weather[0].main}
+                </div>
+              )}
+            </div>
+            <div className="">
+              {weather && weather.weather && (
+                <div className="text-xl">{weather.weather[0].description}</div>
+              )}
+            </div>
+          </div>
+          {/* name country */}
+          <div className="text-white flex flex-col items-center mt-10">
+            <div className="text-2xl">
               {weather && weather.name && (
                 <div>
                   {weather.name}, {weather.sys.country}
@@ -76,22 +109,54 @@ function App() {
             </div>
             <div>{weather && weather.name && <div>{dateBuild()}</div>}</div>
           </div>
-          <div className="text-white text-center mt-20">
-            <div className="font-extrabold text-5xl">
-              {weather &&
-                weather.main &&
-                `${Math.round(weather.main.temp - 273.15)}°C`}
+          {/* status */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-14 text-white text-xl">
+            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+              <div className="text-center">wind speed</div>
+              <div className="text-center text-2xl font-bold">
+                {weather && weather.wind && <div>{weather.wind.speed}</div>}
+              </div>
             </div>
-          </div>
-          <div className="text-white text-2xl flex flex-col items-center mt-10">
-            <div>
-              {weather && weather.weather && (
-                <div>{weather.weather[0].main}</div>
-              )}
+            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+              <div className="text-center">fells like</div>
+              <div className="text-center text-2xl font-bold">
+                {weather &&
+                  weather.main &&
+                  `${Math.round(weather.main.feels_like - 273.15)}°C`}
+              </div>
             </div>
-          </div>
-          <div className="text-white text-4xl font-extrabold flex flex-col items-center">
-            <div>beta เพื่งทำแค่วันเดียวใจเย็น</div>
+            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+              <div className="text-center">temp min</div>
+              <div className="text-center text-2xl font-bold">
+                {weather &&
+                  weather.main &&
+                  `${Math.round(weather.main.temp_min - 273.15)}°C`}
+              </div>
+            </div>
+            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+              <div className="text-center">temp max</div>
+              <div className="text-center text-2xl font-bold">
+                {weather &&
+                  weather.main &&
+                  `${Math.round(weather.main.temp_max - 273.15)}°C`}
+              </div>
+            </div>
+            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+              <div className="text-center">pressure</div>
+              <div className="text-center text-2xl font-bold">
+                {weather &&
+                  weather.main &&
+                  <div>{weather.main.pressure}</div>}
+              </div>
+            </div>
+            <div className="bg-cyan-300 h-40 rounded-xl p-2 flex flex-col justify-around">
+              <div className="text-center">humidity</div>
+              <div className="text-center text-2xl font-bold">
+                {weather &&
+                  weather.main &&
+                  <div>{weather.main.humidity}</div>}
+              </div>
+            </div>
           </div>
         </main>
       </div>
