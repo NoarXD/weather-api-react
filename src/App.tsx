@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
-import { useTranslation } from 'react-i18next';
 
 function App() {
   interface ApiType {
@@ -62,7 +61,6 @@ function App() {
     });
   }, []);
 
-  const { t } = useTranslation();
 
   return (
     <>
@@ -107,7 +105,7 @@ function App() {
             <div className="text-2xl">
               {weather && weather.name && (
                 <div>
-                  {weather.name}, {weather.sys.country} {t('welcome')}
+                  {weather.name}, {weather.sys.country}
                 </div>
               )}
             </div>
